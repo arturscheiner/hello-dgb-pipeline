@@ -98,6 +98,18 @@
          "type" : "connector"
       },
       {
+         "id" : "410d00c8-fb59-44a8-908d-0b1ee3f650cf",
+         "name" : "csv-to-json-connector-v2",
+         "params" : {
+            "csvData" : "",
+            "delimiter" : ",",
+            "failOnError" : false,
+            "headers" : "A,B"
+         },
+         "stepName" : "CSV to Json Connector",
+         "type" : "connector"
+      },
+      {
          "id" : "cb66a10f-e161-4143-9aea-067d96b3ce98",
          "otherwise" : "registro nao encontrado",
          "stepName" : "Choice",
