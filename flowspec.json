@@ -1,0 +1,137 @@
+{
+   "registro encontrado" : [
+      {
+         "accountLabel" : "mysql-2",
+         "id" : "7fc8493a-f39c-46de-b3d9-acb5d222a9b0",
+         "name" : "db-connector-v2",
+         "params" : {
+            "advanced" : false,
+            "batch" : false,
+            "blobAsFile" : false,
+            "clobAsFile" : false,
+            "columnFromLabel" : false,
+            "connectionProperties" : "{}",
+            "connectionTestQuery" : "",
+            "dbPoolByActualConsumers" : false,
+            "exclusiveDbPool" : false,
+            "failOnError" : false,
+            "keepConnection" : true,
+            "operation" : "QUERY",
+            "rollbackOnError" : false,
+            "sql" : "SELECT DATE_FORMAT(SYSDATE(), '%Y-%m-%d') as DATA",
+            "typeProperties" : "[]",
+            "url" : "jdbc:mysql://35.223.175.97/db-training"
+         },
+         "stepName" : "teste de nome",
+         "type" : "connector"
+      }
+   ],
+   "registro nao encontrado" : [
+      {
+         "accountLabel" : "",
+         "accountLabels" : {
+            "custom-1" : "",
+            "custom-2" : ""
+         },
+         "id" : "aa7dbf87-0d2f-47e8-866f-216e20bd47f8",
+         "name" : "soap-connector-v2",
+         "params" : {
+            "advanced" : false,
+            "asString" : false,
+            "body" : "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cli=\"http://cliente.bean.master.sigep.bsb.correios.com.br/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <cli:consultaCEP>\n         <!--Optional:-->\n         <cep>{{ DEFAULT(message.$.cep, \"04547-130\") }}</cep>\n      </cli:consultaCEP>\n   </soapenv:Body>\n</soapenv:Envelope>",
+            "connectTimeout" : 30000,
+            "headers" : "{\"Content-Type\":\"text/xml;charset=UTF-8\",\"SOAPAction\":\" \"}",
+            "isInsecure" : false,
+            "maxRetry" : 0,
+            "overrideResponseCharset" : true,
+            "queryParams" : "",
+            "rawMode" : false,
+            "readTimeout" : 30000,
+            "requestBodyAsFile" : false,
+            "responseCharset" : "UTF-8",
+            "retry" : false,
+            "saveAsLocalFile" : false,
+            "stopOnClientError" : false,
+            "stopOnServerError" : false,
+            "url" : "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente",
+            "waitNextRetry" : 0,
+            "withNamespace" : true
+         },
+         "stepName" : "solicita registro ao IIB",
+         "type" : "connector"
+      },
+      {
+         "asString" : false,
+         "id" : "66408b13-19e4-41bb-bec9-6561aa7e4834",
+         "preserveOriginal" : true,
+         "removeXMLAttributes" : false,
+         "stepName" : "transformer simples",
+         "type" : "xml-to-json-transformer",
+         "withNamespace" : true,
+         "xmlFieldPath" : "body"
+      }
+   ],
+   "start" : [
+      {
+         "accountLabel" : "mysql-2",
+         "id" : "ef25a798-e3c7-41da-b9cf-3814e2c6d06e",
+         "name" : "db-connector-v2",
+         "params" : {
+            "advanced" : false,
+            "batch" : false,
+            "blobAsFile" : false,
+            "clobAsFile" : false,
+            "columnFromLabel" : false,
+            "connectionProperties" : "{}",
+            "connectionTestQuery" : "",
+            "dbPoolByActualConsumers" : false,
+            "exclusiveDbPool" : false,
+            "failOnError" : false,
+            "keepConnection" : true,
+            "operation" : "QUERY",
+            "rollbackOnError" : false,
+            "sql" : "SELECT DATE_FORMAT(SYSDATE(), '%Y-%m-%d') as DATA",
+            "typeProperties" : "[]",
+            "url" : "jdbc:mysql://35.223.175.97/db-training"
+         },
+         "stepName" : "procura registro no db da baixa I",
+         "type" : "connector"
+      },
+      {
+         "accountLabel" : "",
+         "id" : "0dcba820-c23f-4dfa-a49e-eeb5d3c2c2a5",
+         "name" : "rest-connector",
+         "params" : {
+            "advanced" : false,
+            "compressBody" : false,
+            "connectTimeout" : 30000,
+            "header:content-type" : "application/json",
+            "injectJWT" : false,
+            "isInsecure" : false,
+            "maxRetry" : 0,
+            "operation" : "GET",
+            "rawMode" : false,
+            "readJWT" : false,
+            "readTimeout" : 30000,
+            "retry" : false,
+            "stopOnClientError" : false,
+            "stopOnServerError" : false,
+            "url" : "https://viacep.com.br/ws/$EXPAND{:cep,04547000}/json/"
+         },
+         "stepName" : "Load data from API",
+         "type" : "connector"
+      },
+      {
+         "id" : "cb66a10f-e161-4143-9aea-067d96b3ce98",
+         "otherwise" : "registro nao encontrado",
+         "stepName" : "Choice",
+         "type" : "choice",
+         "when" : [
+            {
+               "jsonPath" : "$.[?(@.cidade == 'SÃ£o Paulo')]",
+               "target" : "registro encontrado"
+            }
+         ]
+      }
+   ]
+}
