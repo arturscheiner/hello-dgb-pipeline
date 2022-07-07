@@ -98,30 +98,6 @@
          "type" : "connector"
       },
       {
-         "accountLabel" : "",
-         "id" : "0dcba820-c23f-4dfa-a49e-eeb5d3c2c2a5",
-         "name" : "rest-connector",
-         "params" : {
-            "advanced" : false,
-            "compressBody" : false,
-            "connectTimeout" : 30000,
-            "header:content-type" : "application/json",
-            "injectJWT" : false,
-            "isInsecure" : false,
-            "maxRetry" : 0,
-            "operation" : "GET",
-            "rawMode" : false,
-            "readJWT" : false,
-            "readTimeout" : 30000,
-            "retry" : false,
-            "stopOnClientError" : false,
-            "stopOnServerError" : false,
-            "url" : "https://viacep.com.br/ws/$EXPAND{:cep,04547000}/json/"
-         },
-         "stepName" : "Load data from API",
-         "type" : "connector"
-      },
-      {
          "id" : "cb66a10f-e161-4143-9aea-067d96b3ce98",
          "otherwise" : "registro nao encontrado",
          "stepName" : "Choice",
