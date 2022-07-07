@@ -98,15 +98,18 @@
          "type" : "connector"
       },
       {
+         "failOnError" : false,
          "id" : "410d00c8-fb59-44a8-908d-0b1ee3f650cf",
          "name" : "csv-to-json-connector-v2",
          "params" : {
+            "csvAsFile" : false,
             "csvData" : "",
+            "csvHasHeaders" : false,
             "delimiter" : ",",
-            "failOnError" : false,
+            "fileName" : "",
             "headers" : "A,B"
          },
-         "stepName" : "CSV to Json Connector",
+         "stepName" : "CSV to Json Connector New Version",
          "type" : "connector"
       },
       {
